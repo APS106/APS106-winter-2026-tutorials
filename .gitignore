@@ -175,3 +175,4 @@ ENV/
 lecture_metrics.xlsx
 .mp4
 *.mp4.DS_Store
+.DS_Store
