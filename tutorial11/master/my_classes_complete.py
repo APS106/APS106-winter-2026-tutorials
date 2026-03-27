@@ -13,11 +13,11 @@ class SensorReader:
         """
         Reads the CSV file and stores all rows in self.data.
         """
-        with open(self.filename, mode='r', newline='') as file: # open the file in read mode with newline '' to avoid issues with csv module
-            csv_reader = csv.reader(file)
-            # Read every row (including header) and append to self.data
-            for row in csv_reader:
-                self.data.append(row)
+        file = open(self.filename, mode='r', newline='')
+        csv_reader = csv.reader(file)
+        for row in csv_reader:
+            self.data.append(row)
+        file.close()
 
     def __str__(self):
         """
@@ -36,21 +36,18 @@ class SensorReader:
         Writes the filtered data to the specified output file.
         """
         if not self.data:
-            # If data is empty, there's nothing to filter or write
             return
 
-        with open(output_file, mode='w', newline='') as f_out: # open the file in write mode with newline '' to avoid issues with csv module
-            csv_writer = csv.writer(f_out)
+        f_out = open(output_file, mode='w', newline='')
+        csv_writer = csv.writer(f_out)
 
-            # Write the header row (assuming the first row in self.data is the header)
-            csv_writer.writerow(self.data[0])
+        csv_writer.writerow(self.data[0])
 
-            # Write only rows with voltage > threshold
-            for row in self.data[1:]:
-                # Assuming column index 1 is "voltage"
-                voltage_value = float(row[1])
-                if voltage_value > threshold:
-                    csv_writer.writerow(row)
+        for row in self.data[1:]:
+            voltage_value = float(row[1])
+            if voltage_value > threshold:
+                csv_writer.writerow(row)
+        f_out.close()
 
 
 # Practice Problem: OOP + File I/O
@@ -82,31 +79,31 @@ class Library:
         is_checked_out (str): "TRUE" or "FALSE"
         """
         self.books = []  # clear existing list before loading
-        with open(filename, mode='r', newline='') as csvfile:
-            csv_reader = csv.reader(csvfile)
-            for row in csv_reader:
-                # If there's a column for is_checked_out:
-                # title, author, year, is_checked_out
-                title, author, year, checked_out_str = row
-                is_checked_out = (checked_out_str.lower() == "true")
+        csvfile = open(filename, mode='r', newline='')
+        csv_reader = csv.reader(csvfile)
+        for row in csv_reader:
+            title, author, year, checked_out_str = row
+            is_checked_out = (checked_out_str.lower() == "true")
 
-                book = Book(title, author, year, is_checked_out)
-                self.books.append(book)
+            book = Book(title, author, year, is_checked_out)
+            self.books.append(book)
+        csvfile.close()
 
     def save_books_to_csv(self, filename):
         """
         Writes the same format to CSV, including the current status.
         For each book, we write: title,author,year,is_checked_out
         """
-        with open(filename, mode='w', newline='') as csvfile:
-            csv_writer = csv.writer(csvfile)
-            for book in self.books:
-                csv_writer.writerow([
-                    book.title,
-                    book.author,
-                    book.year,
-                    str(book.is_checked_out) # Convert is_checked_out to a string (True/False)
-                ])
+        csvfile = open(filename, mode='w', newline='')
+        csv_writer = csv.writer(csvfile)
+        for book in self.books:
+            csv_writer.writerow([
+                book.title,
+                book.author,
+                book.year,
+                str(book.is_checked_out)
+            ])
+        csvfile.close()
 
     def find_book_by_title(self, title):
         """

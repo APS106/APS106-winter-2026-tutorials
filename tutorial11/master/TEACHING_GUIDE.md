@@ -8,7 +8,7 @@ Tutorial 11 covers **Python Modules**, **CSV processing**, a brief intro to **Pa
 
 | Topic | Covered in |
 |---|---|
-| `with open()`, `for line in file`, `strip()` | Tutorial 9 |
+| `open()` / `.close()`, `for line in file`, `strip()` | Tutorial 9 |
 | `__init__`, `self`, methods, constructors | Tutorial 10 |
 | Basic class design | Tutorial 10 |
 
